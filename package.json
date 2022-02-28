@@ -1,0 +1,31 @@
+{
+  "name": "discord.js-easy-embed",
+  "version": "1.1.0",
+  "description": "A quick way to use embeds in discord.js",
+  "main": "lib",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XNexusPrimeX/discord.js-easy-embed.git"
+  },
+  "keywords": [
+    "discord.js",
+    "embed",
+    "message"
+  ],
+  "author": " </Nexus_Prime>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/XNexusPrimeX/discord.js-easy-embed/issues"
+  },
+  "homepage": "https://github.com/XNexusPrimeX/discord.js-easy-embed#readme",
+  "dependencies": {
+    "discord.js": "^13.6.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  }
+}
