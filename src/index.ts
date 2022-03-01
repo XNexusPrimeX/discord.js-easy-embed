@@ -48,14 +48,14 @@ export const defaultOptions: IGlobalEmbedOptions = {
     ]
 }
 
-const EasyEmbed = class<STRING extends string = typeof defaultTypes[number]> {
+export const EasyEmbed = class<STRING extends string = typeof defaultTypes[number]> {
     options: IGlobalEmbedOptions<STRING | undefined>;
 
     constructor(options?: IGlobalEmbedOptions<STRING>) {
         this.options = options || defaultOptions;
     }
 
-    createEmbed<K extends boolean = false>(type: STRING, textOrEmbedOptions?: string | Discord.MessageEmbedOptions, options?: { isEmbed?: K, isEphemeral?: boolean }): ifIsEmbed<K> {
+    create<K extends boolean = false>(type: STRING, textOrEmbedOptions?: string | Discord.MessageEmbedOptions, options?: { isEmbed?: K, isEphemeral?: boolean }): ifIsEmbed<K> {
         let result: Discord.MessageEmbed;
 
         const selectedType = this.options.types?.find(t => t.name === type);
