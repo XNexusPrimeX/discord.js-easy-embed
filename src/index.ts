@@ -24,7 +24,7 @@ export interface IGlobalEmbedOptions<STRING = undefined> {
 const defaultTypes = ['error', 'success', 'common', 'wait'] as const
 export const defaultOptions: IGlobalEmbedOptions = {
     ephemeral: true,
-    separator: '|',
+    separator: ' | ',
     types: [
         {
             name: defaultTypes[0],
