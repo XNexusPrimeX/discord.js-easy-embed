@@ -11,4 +11,6 @@ const embedGenerator = new EasyEmbed({
     ]
 });
 
-console.log(embedGenerator.create('a', 'testing..'));
+console.log(embedGenerator.create('a', 'testing..', {
+    
+}));
