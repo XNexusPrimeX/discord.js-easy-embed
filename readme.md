@@ -71,12 +71,11 @@ const embedGenerator = new EasyEmbed({
 });
 
 embedGenerator.create('Accepted', 'heheeeh', {
-  // The create function returns a MessageOptions for use in this way:
-  // message.reply(embedGenerator.create())
-  // but if this options is true, the function return a MessageEmbed
-  isEmbed: false,
+  // Options of Interaction/Messages (optional)
   
+  components: [],
+  files: [],
   // If this option is undefined, the ephemeral of constructor is used
-  isEphemeral: false
+  ephemeral: false
 })
 ```

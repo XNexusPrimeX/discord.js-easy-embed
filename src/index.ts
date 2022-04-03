@@ -55,7 +55,7 @@ export const EasyEmbed = class<STRING extends string = typeof defaultTypes[numbe
         this.options = options || defaultOptions;
     }
 
-    create<K extends boolean = false>(type: STRING, textOrEmbedOptions?: string | Discord.MessageEmbedOptions, options?: { isEmbed?: K, isEphemeral?: boolean }): ifIsEmbed<K> {
+    create(type: STRING, textOrEmbedOptions?: string | Discord.MessageEmbedOptions, options?: Omit<Discord.InteractionReplyOptions, 'embeds'>) {
         let result: Discord.MessageEmbed;
 
         const selectedType = this.options.types?.find(t => t.name === type);
@@ -85,12 +85,7 @@ export const EasyEmbed = class<STRING extends string = typeof defaultTypes[numbe
             result = embed;
         }
     
-        // @ts-ignore
-        if(options?.isEmbed) return result;
-        // @ts-ignore
-        else return { embeds: [result], ephemeral: options?.isEphemeral ?? defaultOptions.ephemeral }
-    
-        // TypeScript limitation
+        return { embeds: [result], ...options };
     }
 }
 
