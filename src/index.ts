@@ -1,6 +1,5 @@
-import Discord from 'discord.js';
-
-type ifIsEmbed<K extends boolean> = Discord.If<K, Discord.MessageEmbed, Discord.MessageOptions>;
+import { APIEmbed } from 'discord-api-types';
+import Discord, { MessageEmbedOptions } from 'discord.js';
 
 export interface IGlobalEmbedOptions<STRING = undefined> {
     /**
@@ -18,7 +17,11 @@ export interface IGlobalEmbedOptions<STRING = undefined> {
      * Types of GlobalEmbed
      * @example { name: 'error', color: 'RED', emoji: '❌' }
      */
-    types: { name: STRING | string, color: Discord.ColorResolvable, emoji?: string }[]
+    types: (Omit<Discord.MessageEmbedOptions, 'title'> & {
+        name: STRING | string, 
+        color: Discord.ColorResolvable, 
+        emoji?: string,
+    })[]
 }
 
 const defaultTypes = ['error', 'success', 'common', 'wait'] as const
@@ -29,7 +32,7 @@ export const defaultOptions: IGlobalEmbedOptions = {
         {
             name: defaultTypes[0],
             color: '#ff1745',
-            emoji: '❌'
+            emoji: '❌',
         },
         {
             name: defaultTypes[1],
@@ -55,34 +58,55 @@ export const EasyEmbed = class<STRING extends string = typeof defaultTypes[numbe
         this.options = options || defaultOptions;
     }
 
-    create(type: STRING, textOrEmbedOptions?: string | Discord.MessageEmbedOptions, options?: Omit<Discord.InteractionReplyOptions, 'embeds'>) {
-        let result: Discord.MessageEmbed;
-
+    create(type: STRING, textOrEmbedOptions: string | Discord.MessageEmbedOptions, options?: Omit<Discord.InteractionReplyOptions, 'embeds'>) {
         const selectedType = this.options.types?.find(t => t.name === type);
         if(!selectedType) throw new Error("This Embed type not exist");
 
+        const { footer, color, author, description, fields, image, thumbnail, timestamp, url } = selectedType;
+        let result: Discord.MessageEmbed = new Discord.MessageEmbed({
+            footer, color, author, description, fields, image, thumbnail, timestamp, url
+        });
+        
         const selectedSeparator = this.options.separator || defaultOptions.separator;
 
         if (typeof textOrEmbedOptions === 'string') {
-            result = new Discord.MessageEmbed({
-                title: `${selectedType?.emoji}${selectedSeparator}${textOrEmbedOptions.length > 40 
-                    ? selectedType?.name 
-                    : textOrEmbedOptions
-                }`,
-                description: textOrEmbedOptions.length > 40 
-                    ? `${selectedType?.emoji}${selectedSeparator}${textOrEmbedOptions}` 
-                    : undefined,
-                color: selectedType?.color
-            });
-        } else {
-            const embed = new Discord.MessageEmbed(textOrEmbedOptions);
-            embed.setTitle(`${selectedType?.emoji}${selectedSeparator}${textOrEmbedOptions?.title && textOrEmbedOptions?.title.length > 40 
+            result.setTitle(`${selectedType?.emoji}${selectedSeparator}${textOrEmbedOptions.length > 40 
                 ? selectedType?.name 
                 : textOrEmbedOptions
             }`);
-            embed.setColor(<Discord.ColorResolvable>selectedType?.color);
-    
-            result = embed;
+
+            result.setDescription(textOrEmbedOptions.length > 40 
+                ? textOrEmbedOptions 
+                : ''
+            );
+            
+            result.setColor(selectedType?.color);
+        } else {
+            result.setTitle(`${selectedType?.emoji}${selectedSeparator}${textOrEmbedOptions?.title}`);
+            result.setColor(<Discord.ColorResolvable>selectedType?.color);
+
+            textOrEmbedOptions.footer?.text && result.setFooter({ 
+                text: textOrEmbedOptions.footer?.text, 
+                iconURL: textOrEmbedOptions.footer?.iconURL 
+            });
+
+            textOrEmbedOptions.author?.name && result.setAuthor({
+                name: textOrEmbedOptions.author?.name,
+                iconURL: textOrEmbedOptions.author?.iconURL,
+                url: textOrEmbedOptions.author?.url
+            });
+
+            textOrEmbedOptions.description && result.setDescription(textOrEmbedOptions.description);
+
+            textOrEmbedOptions.fields?.forEach(field => result.addField(field.name, field.value, field.inline));
+
+            textOrEmbedOptions.image?.url && result.setImage(textOrEmbedOptions.image?.url);
+
+            textOrEmbedOptions.thumbnail?.url && result.setThumbnail(textOrEmbedOptions.thumbnail?.url);
+
+            textOrEmbedOptions.timestamp && result.setTimestamp(textOrEmbedOptions.timestamp);
+
+            textOrEmbedOptions.url && result.setURL(textOrEmbedOptions.url);
         }
     
         return { embeds: [result], ...options };
