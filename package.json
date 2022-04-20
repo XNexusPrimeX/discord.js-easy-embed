@@ -1,6 +1,6 @@
 {
   "name": "discord.js-easy-embed",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "A quick way to use embeds in discord.js",
   "main": "lib",
   "types": "lib/index.d.ts",

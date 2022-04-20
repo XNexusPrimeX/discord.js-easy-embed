@@ -70,19 +70,17 @@ export const EasyEmbed = class<STRING extends string = typeof defaultTypes[numbe
         const selectedSeparator = this.options.separator || defaultOptions.separator;
 
         if (typeof textOrEmbedOptions === 'string') {
-            result.setTitle(`${selectedType?.emoji}${selectedSeparator}${textOrEmbedOptions.length > 40 
-                ? selectedType?.name 
-                : textOrEmbedOptions
+            result.setTitle(`${!selectedType.emoji
+                ? textOrEmbedOptions
+                : `${selectedType.emoji}${selectedSeparator}${textOrEmbedOptions}`
             }`);
-
-            result.setDescription(textOrEmbedOptions.length > 40 
-                ? textOrEmbedOptions 
-                : ''
-            );
             
-            result.setColor(selectedType?.color);
+            result.setColor(selectedType.color);
         } else {
-            result.setTitle(`${selectedType?.emoji}${selectedSeparator}${textOrEmbedOptions?.title}`);
+            result.setTitle(`${!selectedType.emoji
+                ? textOrEmbedOptions
+                : `${selectedType.emoji}${selectedSeparator}${textOrEmbedOptions}`
+            }`);
             result.setColor(<Discord.ColorResolvable>selectedType?.color);
 
             textOrEmbedOptions.footer?.text && result.setFooter({ 
@@ -109,7 +107,11 @@ export const EasyEmbed = class<STRING extends string = typeof defaultTypes[numbe
             textOrEmbedOptions.url && result.setURL(textOrEmbedOptions.url);
         }
     
-        return { embeds: [result], ...options };
+        return { 
+            embeds: [result], 
+            ...options,
+            ephemeral: options?.ephemeral ?? this.options.ephemeral
+        };
     }
 }
 
