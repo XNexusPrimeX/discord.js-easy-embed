@@ -7,9 +7,9 @@ The easy-embed is a package to make Discord.js Embeds most easier to use
 ### TypeScript:
 ```ts
 import EasyEmbed from "discord.js-easy-embed";
-const embedGenerator = new EasyEmbed();
+export const createEmbed = new EasyEmbed().create;
 
-console.log(embedGenerator.create('success', 'testing..'));
+console.log(createEmbed('success', 'testing..'));
 
 /* returns:
 {
@@ -30,9 +30,10 @@ console.log(embedGenerator.create('success', 'testing..'));
 ### JavaScript:
 ```js
 const EasyEmbed = require('discord.js-easy-embed').EasyEmbed;
-const embedGenerator = new EasyEmbed();
 
-console.log(embedGenerator.create('wait', 'testing..'));
+const createEmbed = new EasyEmbed().create;
+
+console.log(createEmbed('wait', 'testing..'));
 
 /* returns:
 {

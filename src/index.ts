@@ -52,14 +52,14 @@ export const defaultOptions: IGlobalEmbedOptions = {
 }
 
 export const EasyEmbed = class<STRING extends string = typeof defaultTypes[number]> {
-    options: IGlobalEmbedOptions<STRING | undefined>;
+    static options: IGlobalEmbedOptions<any> = defaultOptions;
 
     constructor(options?: IGlobalEmbedOptions<STRING>) {
-        this.options = options || defaultOptions;
+        if(options) EasyEmbed.options = options;
     }
 
     create(type: STRING, textOrEmbedOptions: string | Discord.MessageEmbedOptions, options?: Omit<Discord.InteractionReplyOptions, 'embeds'>) {
-        const selectedType = this.options.types?.find(t => t.name === type);
+        const selectedType = EasyEmbed.options.types?.find(t => t.name === type);
         if(!selectedType) throw new Error("This Embed type not exist");
 
         const { footer, color, author, description, fields, image, thumbnail, timestamp, url } = selectedType;
@@ -67,7 +67,7 @@ export const EasyEmbed = class<STRING extends string = typeof defaultTypes[numbe
             footer, color, author, description, fields, image, thumbnail, timestamp, url
         });
         
-        const selectedSeparator = this.options.separator || defaultOptions.separator;
+        const selectedSeparator = EasyEmbed.options.separator || defaultOptions.separator;
 
         if (typeof textOrEmbedOptions === 'string') {
             result.setTitle(`${!selectedType.emoji
@@ -110,7 +110,7 @@ export const EasyEmbed = class<STRING extends string = typeof defaultTypes[numbe
         return { 
             embeds: [result], 
             ...options,
-            ephemeral: options?.ephemeral ?? this.options.ephemeral
+            ephemeral: options?.ephemeral ?? EasyEmbed.options.ephemeral
         };
     }
 }
