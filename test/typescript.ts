@@ -6,6 +6,7 @@ const createEmbed = new EasyEmbed({
         {
             name: "erro",
             color: "#ff1745",
+            footer: { text: 'gay lussac' }
         }
     ]
 }).create;
@@ -13,4 +14,4 @@ const createEmbed = new EasyEmbed({
 const a = createEmbed('erro', {
     description: 'teste'
 });
-console.log(a)
+console.log(a.embeds)
