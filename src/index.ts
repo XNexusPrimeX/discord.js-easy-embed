@@ -62,15 +62,14 @@ export const EasyEmbed = class<STRING extends string = typeof defaultTypes[numbe
         const selectedEmbedType = EasyEmbed.options.types?.find(t => t.name === type);
         if(!selectedEmbedType) throw new Error("This Embed type not exist");
 
-        let result: Discord.MessageEmbedOptions = {}
+        let result: Discord.MessageEmbedOptions | Discord.MessageEmbed = {}
         
         const selectedSeparator = EasyEmbed.options.separator || defaultOptions.separator;
 
         if (typeof textOrEmbedOptions === 'string') {
             if(!selectedEmbedType.emoji) {
-                if(textOrEmbedOptions.length < 1) return;
-
-                result.title = textOrEmbedOptions;
+                if(textOrEmbedOptions.length < 1) result.title = '';
+                else result.title = textOrEmbedOptions;
             } else {
                 result.title = `${selectedEmbedType.emoji}${selectedSeparator}${textOrEmbedOptions}`;
             }
@@ -91,15 +90,16 @@ export const EasyEmbed = class<STRING extends string = typeof defaultTypes[numbe
             }
             
             if(!selectedEmbedType.emoji) {
-                if(!textOrEmbedOptions.title || textOrEmbedOptions.title.length < 1) return;
-                
-                result.title = textOrEmbedOptions.title;
+                if(!textOrEmbedOptions.title || textOrEmbedOptions.title.length < 1) result.title = '';
+                else result.title = textOrEmbedOptions.title;
             } else {
                 result.title = `${selectedEmbedType.emoji}${selectedSeparator}${textOrEmbedOptions}`;
             }
 
             result = { ...embed }
         }
+
+        result = new Discord.MessageEmbed(result);
     
         return { 
             embeds: [result], 

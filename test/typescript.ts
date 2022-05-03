@@ -6,13 +6,11 @@ const createEmbed = new EasyEmbed({
         {
             name: "erro",
             color: "#ff1745",
-            emoji: "❌",
-            footer: {
-                text: "errozin"
-            }
         }
     ]
 }).create;
 
-const a = createEmbed('erro', 'Hello World');
+const a = createEmbed('erro', {
+    description: 'teste'
+});
 console.log(a)
