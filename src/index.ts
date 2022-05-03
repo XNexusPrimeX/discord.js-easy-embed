@@ -77,16 +77,16 @@ export const EasyEmbed = class<STRING extends string = typeof defaultTypes[numbe
             result.color = selectedEmbedType.color;
         } else {
             const embed: Discord.MessageEmbedOptions = {
-                author: textOrEmbedOptions.author,
+                author: selectedEmbedType.author ?? textOrEmbedOptions.author,
                 color: selectedEmbedType.color,
-                description: textOrEmbedOptions.description,
-                fields: textOrEmbedOptions.fields,
-                footer: textOrEmbedOptions.footer,
-                image: textOrEmbedOptions.image,
-                thumbnail: textOrEmbedOptions.thumbnail,
-                timestamp: textOrEmbedOptions.timestamp,
-                url: textOrEmbedOptions.url,
-                video: textOrEmbedOptions.video,
+                description: selectedEmbedType.description ?? textOrEmbedOptions.description,
+                fields: selectedEmbedType.fields ?? textOrEmbedOptions.fields,
+                footer: selectedEmbedType.footer ?? textOrEmbedOptions.footer,
+                image: selectedEmbedType.image ?? textOrEmbedOptions.image,
+                thumbnail: selectedEmbedType.thumbnail ?? textOrEmbedOptions.thumbnail,
+                timestamp: selectedEmbedType.timestamp ?? textOrEmbedOptions.timestamp,
+                url: selectedEmbedType.url ?? textOrEmbedOptions.url,
+                video: selectedEmbedType.video ?? textOrEmbedOptions.video,
             }
             
             if(!selectedEmbedType.emoji) {
