@@ -6,12 +6,14 @@ const createEmbed = new EasyEmbed({
         {
             name: "erro",
             color: "#ff1745",
-            footer: { text: 'gay lussac' }
+            footer: { text: 'gay lussac' },
+            emoji: '✅'
         }
     ]
 }).create;
 
 const a = createEmbed('erro', {
+    // title: 'adsa',
     description: 'teste'
 });
 console.log(a.embeds)

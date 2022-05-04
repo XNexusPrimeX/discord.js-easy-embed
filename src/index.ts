@@ -90,10 +90,10 @@ export const EasyEmbed = class<STRING extends string = typeof defaultTypes[numbe
             }
             
             if(!selectedEmbedType.emoji) {
-                if(!textOrEmbedOptions.title || textOrEmbedOptions.title.length < 1) result.title = '';
-                else result.title = textOrEmbedOptions.title;
+                if(!textOrEmbedOptions.title || textOrEmbedOptions.title.length < 1) embed.title = '';
+                else embed.title = textOrEmbedOptions.title;
             } else {
-                result.title = `${selectedEmbedType.emoji}${selectedSeparator}${textOrEmbedOptions}`;
+                embed.title = `${selectedEmbedType.emoji}${selectedSeparator}${textOrEmbedOptions.title ?? selectedEmbedType.name}`;
             }
 
             result = { ...embed }
